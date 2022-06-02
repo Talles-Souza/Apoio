@@ -9,6 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "categoria")
@@ -20,9 +24,13 @@ public class Categoria {
 	private Integer idCategoria;
 
 	@Column(name = "nome")
+	@NotBlank(message = "O nome é obrigatório")
+	@Length(min = 3, max = 35, message = "O nome deverá ter no máximo {max} caracteres")
+	@Pattern(regexp = "[a-z\\s]+$", message = "O nome da categoria só deve conter letras '.")
 	private String nomeCategoria;
 
 	@Column(name = "descricao")
+	@NotBlank(message = "A descrição é obrigatória")
 	private String descricaoCategoria;
 
 	@OneToMany(mappedBy = "categoria")

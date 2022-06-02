@@ -2,6 +2,8 @@ package com.residencia.commerce.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,12 +39,14 @@ public class EnderecoController {
 	}
 	
 	@PostMapping
+	@Valid
 	public ResponseEntity<Endereco> saveEndereco(@RequestBody Endereco endereco){
 		Endereco novoEndereco = enderecoService.saveEndereco(endereco);
 		return new ResponseEntity<>(novoEndereco, HttpStatus.CREATED);
 	}
 	
 	@PutMapping
+	@Valid
 	public ResponseEntity<Endereco> updateEndereco(@RequestBody Endereco endereco){
 		Endereco enderecoAtualizado = enderecoService.saveEndereco(endereco);
 		return new ResponseEntity<>(enderecoAtualizado, HttpStatus.OK);
