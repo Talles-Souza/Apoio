@@ -9,6 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 public class Cliente {
@@ -19,18 +24,29 @@ public class Cliente {
 	private Integer idCliente;
 
 	@Column(name = "email")
+	@NotBlank(message = "O email é obrigatório")
+	@Email(regexp = "[A-Za-z0-9._%-+]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}")
 	private String emailCliente;
 
 	@Column(name = "nome_completo")
+	@NotBlank(message = "O nome é obrigatório")
+	@Length(min = 3, max = 35, message = "O nome deverá ter no máximo {max} caracteres")
+	@Pattern(regexp = "^[A-Z]+(.)*", message = "O nome não pode começar com letras minúsculas e só deve conter letras.")
 	private String nomeCompletoCliente;
 
 	@Column(name = "cpf")
+	@NotBlank(message = "O cpf é obrigatório")
+	@Pattern(regexp = "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}", message = "O CPF deve respeitar o formato 'XXX-XXX-XXX-XX'.")
 	private String cpfCliente;
 
 	@Column(name = "telefone")
+	@NotBlank(message = "O telefone é obrigatório")
+	@Pattern(regexp = "([0-9]{2,3})?([0-9]{2})([0-9]{4,5})([0-9]{4})", message = "O telefone deve respeitar o formato válido.")
 	private String telefoneCliente;
 
 	@Column(name = "data_pedido")
+	@NotBlank(message = "A data do pedido é obrigatória")
+	@Pattern(regexp = "/(\\d{2})\\/(\\d{2})\\/(\\d{4})/", message = "A data deve respeitar o formato XX/XX/XXXX")
 	private Date dataNascimentoCliente;
 
 	@ManyToOne

@@ -1,6 +1,7 @@
 package com.residencia.commerce.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,13 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-
-import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "produto")
@@ -26,31 +22,21 @@ public class Produto {
 	private Integer idProduto;
 
 	@Column(name = "nome")
-	@NotBlank(message = "O nome é obrigatório")
-	@Length(min = 3, max = 35, message = "O nome deverá ter no máximo {max} caracteres")
-	@Pattern(regexp = "^[A-Z]+(.)*", message = "O nome não pode começar com letras minúsculas.")
 	private String nomeProduto;
 
 	@Column(name = "descricao")
-	@NotBlank(message = "A descrição é obrigatório")
-	@Length(min = 3, max = 250, message = "O nome deverá ter no máximo {max} caracteres")
 	private String descricao;
 
 	@Column(name = "qtd_estoque")
-	@NotNull(message = "Campo vazio")
 	private Integer qtdEstoqueProduto;
 
 	@Column(name = "data_cadastro")
-	@NotNull(message = "O campo data está vazio")
 	private Date dataCadastroProduto;
 
 	@Column(name = "valor_unitario")
-	@NotNull(message = "Campo vazio")
 	private Double valorUnitarioProduto;
 
 	@Column(name = "imagem")
-	@NotBlank(message = "O nome é obrigatório")
-	@Length(min = 3, max = 250, message = "O nome deverá ter no máximo {max} caracteres")
 	private String nomeImagemProduto;
 
 	@ManyToOne

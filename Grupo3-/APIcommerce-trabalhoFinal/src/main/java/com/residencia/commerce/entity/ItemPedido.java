@@ -7,34 +7,27 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
 
 @Entity
 public class ItemPedido {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_item_pedido")
-	@NotNull(message = "Campo vazio")
 	private Integer idItemPedido;
 
 	@Column(name = "quantidade")
-	@NotNull(message = "Campo vazio")
 	private Integer quantidadeItemProduto;
 
 	@Column(name = "preco_venda")
-	@NotNull(message = "Campo vazio")
 	private Double precoVendaItemPedido;
 
 	@Column(name = "percentual_desconto")
-	@NotNull(message = "Campo vazio")
 	private Double percentualDescontoItemPedido;
 
 	@Column(name = "valor_bruto")
-	@NotNull(message = "Campo vazio")
 	private Double valorBrutoItemPedido;
 
 	@Column(name = "valor_liquido")
-	@NotNull(message = "Campo vazio")
 	private Double valorLiquidoItemPedido;
 
 	 @ManyToOne

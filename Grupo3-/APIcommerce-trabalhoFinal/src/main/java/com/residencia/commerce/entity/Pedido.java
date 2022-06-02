@@ -11,10 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.Length;
 
 @Entity
 public class Pedido {
@@ -22,21 +18,17 @@ public class Pedido {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_pedido")
 	private Integer idPedido;
-	
+
 	@Column(name = "data_pedido")
-	@NotNull(message = "O campo data está vazio")
 	private Date dataPedido;
 
 	@Column(name = "data_entrega")
-	@NotNull(message = "O campo data está vazio")
 	private Date dataEntregaPedido;
 
 	@Column(name = "data_envio")
-	@NotNull(message = "O campo data está vazio")
 	private Date dataEnvioPedido;
 
 	@Column(name = "status")
-	@NotBlank(message = "O status é obrigatório")
 	private Boolean statusPedido;
 
 	@OneToMany(mappedBy = "pedido")
