@@ -2,8 +2,6 @@ package com.residencia.commerce.controller;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.residencia.commerce.entity.Pedido;
+import com.residencia.commerce.dto.PedidoDTO;
 import com.residencia.commerce.service.PedidoService;
 
 @RestController
@@ -26,33 +24,33 @@ public class PedidoController {
 	PedidoService pedidoService;
 	
 	@GetMapping
-	public ResponseEntity<List<Pedido>> findAllPedido(){
-		List<Pedido> pedidoList = pedidoService.findAllPedido();
-		return new ResponseEntity<>(pedidoList, HttpStatus.OK);
-			
-	}
-	
-	@GetMapping("/{id}")
-	public ResponseEntity<Pedido> findPedidoById(Integer id){
-		Pedido pedido = pedidoService.findPedidoById(id);
-		return new ResponseEntity<>(pedido, HttpStatus.OK);
-	}
-	
-	@PostMapping
-	public ResponseEntity<Pedido> savePedido(@RequestBody @Valid Pedido pedido){
-		Pedido novoPedido = pedidoService.savePedido(pedido);
-		return new ResponseEntity<>(novoPedido, HttpStatus.CREATED);
-	}
-	
-	@PutMapping
-	public ResponseEntity<Pedido> updatePedido(@RequestBody @Valid Pedido pedido){
-		Pedido pedidoAtualizado = pedidoService.updatePedido(pedido);
-		return new ResponseEntity<>(pedidoAtualizado, HttpStatus.OK);
-	}
-	
-	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deletePedido(@PathVariable Integer id){
-		pedidoService.deletePedidoById(id);
-		return new ResponseEntity<>("Pedido deletado com sucesso", HttpStatus.OK);
-	}
+    public ResponseEntity<List<PedidoDTO>> findAllPedido(){
+        List<PedidoDTO> pedidoList = pedidoService.findAllPedido();
+        return new ResponseEntity<>(pedidoList, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PedidoDTO> findPedidoById(@PathVariable Integer id){
+    	PedidoDTO pedidoDTO = pedidoService.findPedidoById(id);
+        return new ResponseEntity<>(pedidoDTO, HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<PedidoDTO> savePedido(@RequestBody PedidoDTO pedidoDTO){
+    	PedidoDTO novoPedido = pedidoService.savePedido(pedidoDTO);
+        return new ResponseEntity<>(novoPedido, HttpStatus.CREATED);
+    }
+
+    @PutMapping
+    public ResponseEntity<PedidoDTO> updatePedido(@RequestBody PedidoDTO pedidoDTO){
+    	PedidoDTO pedidoAtualizado = pedidoService.updatePedido(pedidoDTO);
+        return new ResponseEntity<>(pedidoAtualizado, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletePedido(@PathVariable Integer id){
+    	pedidoService.deletePedidoById(id);
+        return new ResponseEntity<>("Pedido deletado com sucesso", HttpStatus.OK);
+    }
 }
+	

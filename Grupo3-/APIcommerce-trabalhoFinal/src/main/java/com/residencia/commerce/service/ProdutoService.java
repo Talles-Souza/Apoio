@@ -11,6 +11,7 @@ import com.residencia.commerce.repository.ProdutoRepository;
 
 @Service
 public class ProdutoService {
+	
 	@Autowired
 	ProdutoRepository produtoRepository;
 
@@ -40,7 +41,6 @@ public class ProdutoService {
 		Produto produto = new Produto();
 
 		produto.setIdProduto(produtoDTO.getIdProduto());
-		produto.getCategoria().setIdCategoria(produtoDTO.getCategoriaDTO().getIdCategoria());
 		produto.setDataCadastroProduto(produtoDTO.getDataCadastroProduto());
 		produto.setDescricao(produtoDTO.getDescricao());
 		produto.setNomeImagemProduto(produtoDTO.getNomeImagemProduto());
@@ -54,7 +54,6 @@ public class ProdutoService {
 	private ProdutoDTO converterEntityToDTO(Produto produto) {
 		ProdutoDTO produtoDTO = new ProdutoDTO();
 
-		produtoDTO.getCategoriaDTO().setIdCategoria(produto.getCategoria().getIdCategoria());
 		produtoDTO.setDataCadastroProduto(produto.getDataCadastroProduto());
 		produtoDTO.setDescricao(produto.getDescricao());
 		produtoDTO.setIdProduto(produto.getIdProduto());
