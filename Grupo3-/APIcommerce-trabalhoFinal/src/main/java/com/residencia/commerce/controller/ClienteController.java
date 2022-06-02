@@ -40,14 +40,14 @@ public class ClienteController {
 	
 	@PostMapping
 	@Valid
-	public ResponseEntity<Cliente> saveCliente(@RequestBody Cliente cliente){
+	public ResponseEntity<Cliente> saveCliente(@RequestBody @Valid Cliente cliente){
 		Cliente novoCliente = clienteService.saveCliente(cliente);
 		return new ResponseEntity<>(novoCliente, HttpStatus.CREATED);
 	}
 	
 	@PutMapping
 	@Valid
-	public ResponseEntity<Cliente> updateCliente(@RequestBody Cliente cliente){
+	public ResponseEntity<Cliente> updateCliente(@RequestBody @Valid Cliente cliente){
 		Cliente clienteAtualizado = clienteService.saveCliente(cliente);
 		return new ResponseEntity<>(clienteAtualizado, HttpStatus.OK);
 	}

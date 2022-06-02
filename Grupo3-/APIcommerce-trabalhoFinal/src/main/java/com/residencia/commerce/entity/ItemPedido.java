@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class ItemPedido {
@@ -16,23 +17,28 @@ public class ItemPedido {
 	private Integer idItemPedido;
 
 	@Column(name = "quantidade")
+	@NotNull(message = "O campo está vazio")
 	private Integer quantidadeItemProduto;
 
 	@Column(name = "preco_venda")
+	@NotNull(message = "O campo está vazio")
 	private Double precoVendaItemPedido;
 
 	@Column(name = "percentual_desconto")
+	@NotNull(message = "O campo está vazio")
 	private Double percentualDescontoItemPedido;
 
 	@Column(name = "valor_bruto")
+	@NotNull(message = "O campo está vazio")
 	private Double valorBrutoItemPedido;
 
 	@Column(name = "valor_liquido")
+	@NotNull(message = "O campo está vazio")
 	private Double valorLiquidoItemPedido;
 
-	 @ManyToOne
-	 @JoinColumn(name = "id_pedido", referencedColumnName = "id_pedido")
-	 private Pedido pedido;
+	@ManyToOne
+	@JoinColumn(name = "id_pedido", referencedColumnName = "id_pedido")
+	private Pedido pedido;
 
 	@ManyToOne 
 	@JoinColumn(name = "id_produto", referencedColumnName = "id_produto")

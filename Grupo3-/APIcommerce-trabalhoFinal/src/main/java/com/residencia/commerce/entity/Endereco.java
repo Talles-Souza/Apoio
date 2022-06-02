@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
@@ -43,7 +44,7 @@ public class Endereco {
 	private String cidadeEndereco;
 
 	@Column(name = "numero")
-	@NotBlank(message = "O numero é obrigatório")
+	@NotNull(message = "O numero é obrigatório")
 	private Integer numeroEndereco;
 
 	@Column(name = "complemento")

@@ -40,14 +40,14 @@ public class EnderecoController {
 	
 	@PostMapping
 	@Valid
-	public ResponseEntity<Endereco> saveEndereco(@RequestBody Endereco endereco){
+	public ResponseEntity<Endereco> saveEndereco(@RequestBody @Valid Endereco endereco){
 		Endereco novoEndereco = enderecoService.saveEndereco(endereco);
 		return new ResponseEntity<>(novoEndereco, HttpStatus.CREATED);
 	}
 	
 	@PutMapping
 	@Valid
-	public ResponseEntity<Endereco> updateEndereco(@RequestBody Endereco endereco){
+	public ResponseEntity<Endereco> updateEndereco(@RequestBody @Valid Endereco endereco){
 		Endereco enderecoAtualizado = enderecoService.saveEndereco(endereco);
 		return new ResponseEntity<>(enderecoAtualizado, HttpStatus.OK);
 	}

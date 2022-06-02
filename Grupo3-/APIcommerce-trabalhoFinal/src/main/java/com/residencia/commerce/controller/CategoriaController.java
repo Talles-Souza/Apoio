@@ -39,14 +39,14 @@ public class CategoriaController {
 
 	@PostMapping
 	@Valid
-	public ResponseEntity<Categoria> saveCategoria(@RequestBody Categoria categoria) {
+	public ResponseEntity<Categoria> saveCategoria(@RequestBody @Valid Categoria categoria) {
 		Categoria novaCategoria = categoriaService.saveCategoria(categoria);
 		return new ResponseEntity<>(novaCategoria, HttpStatus.CREATED);
 	}
 
 	@PutMapping
 	@Valid
-	public ResponseEntity<Categoria> updateCategoria(@RequestBody Categoria categoria) {
+	public ResponseEntity<Categoria> updateCategoria(@RequestBody @Valid Categoria categoria) {
 		Categoria categoriaAtualizada = categoriaService.updateCategoria(categoria);
 		return new ResponseEntity<>(categoriaAtualizada, HttpStatus.OK);
 	}

@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
@@ -45,7 +46,7 @@ public class Cliente {
 	private String telefoneCliente;
 
 	@Column(name = "data_pedido")
-	@NotBlank(message = "A data do pedido é obrigatória")
+	@NotNull(message = "A data do pedido é obrigatória")
 	@Pattern(regexp = "/(\\d{2})\\/(\\d{2})\\/(\\d{4})/", message = "A data deve respeitar o formato XX/XX/XXXX")
 	private Date dataNascimentoCliente;
 
