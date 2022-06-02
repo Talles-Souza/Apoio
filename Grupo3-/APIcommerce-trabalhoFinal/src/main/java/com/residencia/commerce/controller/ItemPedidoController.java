@@ -2,6 +2,8 @@ package com.residencia.commerce.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,36 +22,36 @@ import com.residencia.commerce.service.ItemPedidoService;
 @RestController
 @RequestMapping("/itemPedido")
 public class ItemPedidoController {
-	
+
 	@Autowired
-	 ItemPedidoService itemPedidoService;
-	
+	ItemPedidoService itemPedidoService;
+
 	@GetMapping
-	public ResponseEntity<List<ItemPedido>> findAllItemPedido(){
+	public ResponseEntity<List<ItemPedido>> findAllItemPedido() {
 		List<ItemPedido> itemPedidoList = itemPedidoService.findAllItemPedido();
 		return new ResponseEntity<>(itemPedidoList, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/{id}")
-	public ResponseEntity<ItemPedido> findItemPedidoById(Integer id){
+	public ResponseEntity<ItemPedido> findItemPedidoById(@PathVariable Integer id) {
 		ItemPedido itemPedido = itemPedidoService.findItemPedidoById(id);
 		return new ResponseEntity<>(itemPedido, HttpStatus.OK);
 	}
-	
+
 	@PostMapping
-	public ResponseEntity<ItemPedido> saveItemPedido(@RequestBody ItemPedido itempedido){
+	public ResponseEntity<ItemPedido> saveItemPedido(@RequestBody @Valid ItemPedido itempedido) {
 		ItemPedido novoItemPedido = itemPedidoService.saveItemPedido(itempedido);
 		return new ResponseEntity<>(novoItemPedido, HttpStatus.CREATED);
 	}
-	
+
 	@PutMapping
-	public ResponseEntity<ItemPedido> updateItemPedido(@RequestBody ItemPedido itemPedido){
+	public ResponseEntity<ItemPedido> updateItemPedido(@RequestBody @Valid ItemPedido itemPedido) {
 		ItemPedido itemPedidoAtualizado = itemPedidoService.saveItemPedido(itemPedido);
 		return new ResponseEntity<>(itemPedidoAtualizado, HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteItemPedido(@PathVariable Integer id){
+	public ResponseEntity<String> deleteItemPedido(@PathVariable Integer id) {
 		itemPedidoService.deleteItemPedidoById(id);
 		return new ResponseEntity<>("Item do pedido deletado com sucesso", HttpStatus.OK);
 	}
