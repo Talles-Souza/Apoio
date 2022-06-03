@@ -45,9 +45,9 @@ public class Cliente {
 	@Pattern(regexp = "([0-9]{2,3})?([0-9]{2})([0-9]{4,5})([0-9]{4})", message = "O telefone deve respeitar o formato válido.")
 	private String telefoneCliente;
 
-	@Column(name = "data_pedido")
+	@Column(name = "data_nascimento")
 	@NotNull(message = "A data do pedido é obrigatória")
-	@Pattern(regexp = "/(\\d{2})\\/(\\d{2})\\/(\\d{4})/", message = "A data deve respeitar o formato XX/XX/XXXX")
+	//@Pattern(regexp = "\\d{2}\\/\\d{2}\\/\\d{4}", message = "A data deve respeitar o formato XX/XX/XXXX")
 	private Date dataNascimentoCliente;
 
 	@ManyToOne

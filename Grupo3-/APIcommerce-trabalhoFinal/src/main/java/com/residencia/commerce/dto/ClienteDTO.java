@@ -1,6 +1,9 @@
 package com.residencia.commerce.dto;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class ClienteDTO {
 
@@ -9,9 +12,13 @@ public class ClienteDTO {
 	private String nomeCompletoCliente;
 	private String cpfCliente;
 	private String telefoneCliente;
+	
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date dataNascimentoCliente;
 	private EnderecoDTO enderecoDTO; 
-
+	
+	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	
 	public Integer getIdCliente() {
 		return idCliente;
 	}
