@@ -23,7 +23,7 @@ import com.residencia.commerce.service.ItemPedidoService;
 @RestController
 @RequestMapping("/itemPedido")
 public class ItemPedidoController {
-	
+	//falta enviar email com o formato de nota fiscal
 	@Autowired
 	 ItemPedidoService itemPedidoService;
 	
