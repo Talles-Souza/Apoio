@@ -2,6 +2,8 @@ package com.residencia.commerce.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,13 +39,13 @@ public class ItemPedidoController {
     }
 
     @PostMapping
-    public ResponseEntity<ItemPedidoDTO> saveItemPedido(@RequestBody ItemPedidoDTO itemPedidoDTO){
+    public ResponseEntity<ItemPedidoDTO> saveItemPedido(@RequestBody @Valid ItemPedidoDTO itemPedidoDTO){
     	ItemPedidoDTO novoItemPedido = itemPedidoService.saveItemPedido(itemPedidoDTO);
         return new ResponseEntity<>(novoItemPedido, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<ItemPedidoDTO> updateItemPedido(@RequestBody ItemPedidoDTO itemPedidoDTO){
+    public ResponseEntity<ItemPedidoDTO> updateItemPedido(@RequestBody @Valid ItemPedidoDTO itemPedidoDTO){
     	ItemPedidoDTO itemPedidoAtualizado = itemPedidoService.updateItemPedido(itemPedidoDTO);
         return new ResponseEntity<>(itemPedidoAtualizado, HttpStatus.OK);
     }

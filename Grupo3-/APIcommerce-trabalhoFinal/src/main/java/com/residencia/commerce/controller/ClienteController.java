@@ -2,6 +2,8 @@ package com.residencia.commerce.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.residencia.commerce.dto.ClienteDTO;
-import com.residencia.commerce.entity.Cliente;
 import com.residencia.commerce.service.ClienteService;
 
 @RestController
@@ -38,13 +39,13 @@ public class ClienteController {
     }
 
     @PostMapping
-    public ResponseEntity<ClienteDTO> saveCliente(@RequestBody ClienteDTO clienteDTO){
+    public ResponseEntity<ClienteDTO> saveCliente(@RequestBody @Valid ClienteDTO clienteDTO){
     	ClienteDTO novoCliente = clienteService.saveCliente(clienteDTO);
         return new ResponseEntity<>(novoCliente, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<ClienteDTO> updateCliente(@RequestBody ClienteDTO clienteDTO){
+    public ResponseEntity<ClienteDTO> updateCliente(@RequestBody @Valid ClienteDTO clienteDTO){
     	ClienteDTO clienteAtualizado = clienteService.updateCliente(clienteDTO);
         return new ResponseEntity<>(clienteAtualizado, HttpStatus.OK);
     }

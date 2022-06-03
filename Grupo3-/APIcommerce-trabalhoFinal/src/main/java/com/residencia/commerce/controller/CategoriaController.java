@@ -2,6 +2,8 @@ package com.residencia.commerce.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,13 +38,13 @@ public class CategoriaController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Categoria> saveCategoria(@RequestBody Categoria categoria) {
+	public ResponseEntity<Categoria> saveCategoria(@RequestBody @Valid Categoria categoria) {
 		Categoria novaCategoria = categoriaService.saveCategoria(categoria);
 		return new ResponseEntity<>(novaCategoria, HttpStatus.CREATED);
 	}
 
 	@PutMapping
-	public ResponseEntity<Categoria> updateCategoria(@RequestBody Categoria categoria) {
+	public ResponseEntity<Categoria> updateCategoria(@RequestBody @Valid Categoria categoria) {
 		Categoria categoriaAtualizada = categoriaService.updateCategoria(categoria);
 		return new ResponseEntity<>(categoriaAtualizada, HttpStatus.OK);
 	}
