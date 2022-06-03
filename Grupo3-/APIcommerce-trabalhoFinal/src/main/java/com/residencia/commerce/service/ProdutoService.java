@@ -1,5 +1,6 @@
 package com.residencia.commerce.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,24 +12,32 @@ import com.residencia.commerce.repository.ProdutoRepository;
 
 @Service
 public class ProdutoService {
-	
 	@Autowired
 	ProdutoRepository produtoRepository;
-
-	public List<Produto> findAllProduto() {
-		return produtoRepository.findAll();
+	
+	public List<ProdutoDTO> findAllProduto(){
+		List<Produto> listaProdutosEntity = produtoRepository.findAll();
+		List<ProdutoDTO> listaProdutosDTO = new ArrayList<>();
+		
+		for(Produto produto : listaProdutosEntity) {
+			listaProdutosDTO.add(converterEntityToDTO(produto));
+		}
+		
+		return listaProdutosDTO;
+	}
+	
+	public ProdutoDTO findProdutoById(Integer id) {
+		return produtoRepository.findById(id).isPresent() ? converterEntityToDTO(produtoRepository.findById(id).get()) : null;
 	}
 
-	public Produto findProdutoById(Integer id) {
-		return produtoRepository.findById(id).isPresent() ? produtoRepository.findById(id).get() : null;
+	public ProdutoDTO saveProduto(ProdutoDTO produtoDTO) {
+		Produto produto = produtoRepository.save(ConverteDTOToEntidade(produtoDTO));
+		return converterEntityToDTO(produto);
 	}
 
-	public Produto saveProduto(Produto produto) {
-		return produtoRepository.save(produto);
-	}
-
-	public Produto updateProduto(Produto produto) {
-		return produtoRepository.save(produto);
+	public ProdutoDTO updateProduto(ProdutoDTO produtoDTO) {
+		Produto produto = produtoRepository.save(ConverteDTOToEntidade(produtoDTO));
+		return converterEntityToDTO(produto);
 	}
 
 	public void deleteProdutoById(Integer id) {
