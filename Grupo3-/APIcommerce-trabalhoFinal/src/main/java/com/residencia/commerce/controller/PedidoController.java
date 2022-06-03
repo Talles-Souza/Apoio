@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.residencia.commerce.dto.PedidoDTO;
+import com.residencia.commerce.exception.NoSuchElementFoundException;
 import com.residencia.commerce.service.PedidoService;
 
 @RestController
@@ -34,6 +35,9 @@ public class PedidoController {
     @GetMapping("/{id}")
     public ResponseEntity<PedidoDTO> findPedidoById(@PathVariable Integer id){
     	PedidoDTO pedidoDTO = pedidoService.findPedidoById(id);
+    	if (null == pedidoDTO)
+			throw new NoSuchElementFoundException("Não foi encontrado um Pedido com o id " + id);
+		else
         return new ResponseEntity<>(pedidoDTO, HttpStatus.OK);
     }
 
@@ -45,14 +49,21 @@ public class PedidoController {
 
     @PutMapping
     public ResponseEntity<PedidoDTO> updatePedido(@RequestBody @Valid PedidoDTO pedidoDTO){
-    	PedidoDTO pedidoAtualizado = pedidoService.updatePedido(pedidoDTO);
-        return new ResponseEntity<>(pedidoAtualizado, HttpStatus.OK);
+    	PedidoDTO pedidoAtualizado = pedidoService.findPedidoById(pedidoDTO.getIdPedido());
+    	if (null == pedidoAtualizado)
+			throw new NoSuchElementFoundException("Não foi encontrado um Pedido com o id ");
+		else
+        return new ResponseEntity<>(pedidoService.updatePedido(pedidoDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePedido(@PathVariable Integer id){
-    	pedidoService.deletePedidoById(id);
-        return new ResponseEntity<>("Pedido deletado com sucesso", HttpStatus.OK);
+    	PedidoDTO PedidoAtualizado = pedidoService.findPedidoById(id);
+		if (null == PedidoAtualizado)
+			throw new NoSuchElementFoundException("Não foi encontrado um Pedido com o id " + id);
+		else
+			pedidoService.deletePedidoById(id);
+		return new ResponseEntity<>("Item do pedido deletado com sucesso", HttpStatus.OK);
     }
 }
 	

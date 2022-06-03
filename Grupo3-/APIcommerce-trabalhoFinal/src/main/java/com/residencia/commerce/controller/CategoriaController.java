@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.residencia.commerce.entity.Categoria;
+import com.residencia.commerce.exception.NoSuchElementFoundException;
 import com.residencia.commerce.service.CategoriaService;
 
 @RestController
@@ -26,33 +27,42 @@ public class CategoriaController {
 	CategoriaService categoriaService;
 
 	@GetMapping
-	public ResponseEntity<List<Categoria>> findAllCategoria() {
-		List<Categoria> categoriaList = categoriaService.findAllCategoria();
-		return new ResponseEntity<>(categoriaList, HttpStatus.OK);
-	}
+    public ResponseEntity<List<Categoria>> findAllCategoria() {
+        List<Categoria> categoriaList = categoriaService.findAllCategoria();
+        return new ResponseEntity<>(categoriaList, HttpStatus.OK);
+    }
 
-	@GetMapping("/{id}")
-	public ResponseEntity<Categoria> findCategoriaById(@PathVariable Integer id) {
-		Categoria categoria = categoriaService.findCategoriaById(id);
-		return new ResponseEntity<>(categoria, HttpStatus.OK);
-	}
+    @GetMapping("/{id}")
+    public ResponseEntity<Categoria> findCategoriaById(@PathVariable Integer id) {
+        Categoria categoria = categoriaService.findCategoriaById(id);
+        if (null == categoria)
+            throw new NoSuchElementFoundException("Não foi encontrado categoria com o id " + id);
+        else
+            return new ResponseEntity<>(categoria, HttpStatus.OK);
+    }
 
-	@PostMapping
-	public ResponseEntity<Categoria> saveCategoria(@RequestBody @Valid Categoria categoria) {
-		Categoria novaCategoria = categoriaService.saveCategoria(categoria);
-		return new ResponseEntity<>(novaCategoria, HttpStatus.CREATED);
-	}
+    @PostMapping
+    public ResponseEntity<Categoria> saveCategoria(@RequestBody @Valid Categoria categoria) {
+        return new ResponseEntity<>(categoriaService.saveCategoria(categoria), HttpStatus.CREATED);
+    }
 
-	@PutMapping
-	public ResponseEntity<Categoria> updateCategoria(@RequestBody @Valid Categoria categoria) {
-		Categoria categoriaAtualizada = categoriaService.updateCategoria(categoria);
-		return new ResponseEntity<>(categoriaAtualizada, HttpStatus.OK);
-	}
+    @PutMapping
+    public ResponseEntity<Categoria> updateCategoria(@RequestBody @Valid Categoria categoria) {
+        Categoria categoriaAtualizada = categoriaService.findCategoriaById(categoria.getIdCategoria());
+        if (null == categoriaAtualizada)
+            throw new NoSuchElementFoundException("Não foi possivel atualizar a categoria ");
+        else
+            return new ResponseEntity<>(categoriaService.updateCategoria(categoria), HttpStatus.OK);
+    }
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteCategoriaById(@PathVariable Integer id) {
-		categoriaService.deleteCategoriaById(id);
-		return new ResponseEntity<>("Categoria deletada com sucesso", HttpStatus.OK);
-	}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteCategoriaById(@PathVariable Integer id) {
+        Categoria categoria = categoriaService.findCategoriaById(id);
+        if (null == categoria)
+            throw new NoSuchElementFoundException("Não foi encontrado categoria com o id " + id);
+        else
+            categoriaService.deleteCategoriaById(id);
+        return new ResponseEntity<>("Categoria deletada com sucesso", HttpStatus.OK);
+    }
 	
 }
