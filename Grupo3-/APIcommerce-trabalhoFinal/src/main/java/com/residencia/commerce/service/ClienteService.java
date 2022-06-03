@@ -61,9 +61,11 @@ public class ClienteService {
 		cliente.setCpfCliente(clienteDTO.getCpfCliente());
 		cliente.setTelefoneCliente(clienteDTO.getTelefoneCliente());
 		cliente.setDataNascimentoCliente(clienteDTO.getDataNascimentoCliente());
+
 		endereco = enderecoService
 				.ConverteDTOToEntidade(enderecoService.findEnderecoById(clienteDTO.getEnderecoDTO().getIdEndereco()));
 		cliente.setEndereco(endereco);
+
 
 		return cliente;
 	}
