@@ -1,10 +1,12 @@
 package com.residencia.commerce.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.residencia.commerce.dto.PedidoDTO;
 import com.residencia.commerce.entity.Pedido;
 import com.residencia.commerce.repository.PedidoRepository;
 
@@ -13,25 +15,61 @@ public class PedidoService {
 	@Autowired
 	PedidoRepository pedidoRepository;
 	
-	public List<Pedido> findAllPedido(){
-		return pedidoRepository.findAll();
-	}
+	public List<PedidoDTO> findAllPedido(){
+        List<Pedido> listaPedidosEntity = pedidoRepository.findAll();
+        List<PedidoDTO> listaPedidosDTO = new ArrayList<>();
+
+        for(Pedido pedido : listaPedidosEntity) {
+            listaPedidosDTO.add(converterEntityToDTO(pedido));
+        }
+
+        return listaPedidosDTO;
+    }
+
+    public PedidoDTO findPedidoById(Integer id) {
+        return pedidoRepository.findById(id).isPresent() ? converterEntityToDTO(pedidoRepository.findById(id).get()) : null;
+    }
+
+    public PedidoDTO savePedido(PedidoDTO pedidoDTO) {
+        Pedido pedido = pedidoRepository.save(ConverteDTOToEntidade(pedidoDTO));
+        return converterEntityToDTO(pedido);
+    }
+
+    public PedidoDTO updatePedido(PedidoDTO pedidoDTO) {
+        Pedido pedido = pedidoRepository.save(ConverteDTOToEntidade(pedidoDTO));
+        return converterEntityToDTO(pedido);
+    }
+    public void deletePedidoById(Integer id) {
+        Pedido pedido = pedidoRepository.findById(id).get();
+        pedidoRepository.delete(pedido);
+
+    }
 	
-	public Pedido findPedidoById(Integer id) {
-		return pedidoRepository.findById(id).isPresent() ?
-				pedidoRepository.findById(id).get() : null;
-	}
 	
-	public Pedido savePedido(Pedido pedido) {
-		return pedidoRepository.save(pedido);
-	}
-	
-	public Pedido updatePedido(Pedido pedido) {
-		return pedidoRepository.save(pedido);
-	}
-	
-	public void deletePedidoById(Integer id) {
-		Pedido pedido = pedidoRepository.findById(id).get();
-		pedidoRepository.delete(pedido);
+	private Pedido ConverteDTOToEntidade(PedidoDTO pedidoDTO) {
+		Pedido pedido = new Pedido();
+
+		pedido.setIdPedido(pedidoDTO.getIdPedido());
+		pedido.setDataPedido(pedidoDTO.getDataPedido());
+		pedido.setDataEntregaPedido(pedidoDTO.getDataEntregaPedido());
+		pedido.setDataEnvioPedido(pedidoDTO.getDataEnvioPedido());
+		pedido.setStatusPedido(pedidoDTO.getStatusPedido());
+		pedido.getCliente().setIdCliente(pedidoDTO.getClienteDTO().getIdCliente());
+		
+		return pedido;
+	};
+
+	private PedidoDTO converterEntityToDTO(Pedido pedido) {
+		PedidoDTO pedidoDTO = new PedidoDTO();
+
+		pedidoDTO.setDataPedido(pedido.getDataPedido());
+		pedidoDTO.setDataEntregaPedido(pedido.getDataEntregaPedido());
+		pedidoDTO.setIdPedido(pedido.getIdPedido());
+		pedidoDTO.setDataEnvioPedido(pedido.getDataEnvioPedido());
+		pedidoDTO.setStatusPedido(pedido.getStatusPedido());
+		pedidoDTO.getClienteDTO().setIdCliente(pedido.getCliente().getIdCliente());
+		
+		return pedidoDTO;
+
 	}
 }
