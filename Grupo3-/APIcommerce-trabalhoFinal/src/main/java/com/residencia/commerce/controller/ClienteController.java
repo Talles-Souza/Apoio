@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.residencia.commerce.dto.ClienteDTO;
+import com.residencia.commerce.exception.NoSuchElementFoundException;
 import com.residencia.commerce.service.ClienteService;
 
 @RestController
@@ -34,25 +35,35 @@ public class ClienteController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ClienteDTO> findClienteById(@PathVariable Integer id){
-    	ClienteDTO clienteDTO = clienteService.findClienteById(id);
+        ClienteDTO clienteDTO = clienteService.findClienteById(id);
+        if (null == clienteDTO)
+            throw new NoSuchElementFoundException("Não foi encontrado o cliente com o id " + id);
+        else
         return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<ClienteDTO> saveCliente(@RequestBody @Valid ClienteDTO clienteDTO){
-    	ClienteDTO novoCliente = clienteService.saveCliente(clienteDTO);
+        ClienteDTO novoCliente = clienteService.saveCliente(clienteDTO);
         return new ResponseEntity<>(novoCliente, HttpStatus.CREATED);
     }
 
     @PutMapping
     public ResponseEntity<ClienteDTO> updateCliente(@RequestBody @Valid ClienteDTO clienteDTO){
-    	ClienteDTO clienteAtualizado = clienteService.updateCliente(clienteDTO);
-        return new ResponseEntity<>(clienteAtualizado, HttpStatus.OK);
+        ClienteDTO clienteAtualizado = clienteService.findClienteById(clienteDTO.getIdCliente());
+        if (null == clienteAtualizado)
+            throw new NoSuchElementFoundException("Não foi possivel atualizar o cliente com o id " + clienteDTO.getIdCliente());
+        else
+            return new ResponseEntity<>(clienteService.updateCliente(clienteDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCliente(@PathVariable Integer id){
-    	clienteService.deleteClienteById(id);
+        ClienteDTO clienteAtualizado = clienteService.findClienteById(id);
+        if (null == clienteAtualizado)
+            throw new NoSuchElementFoundException("Não foi possivel deletar o cliente com o id " + id);
+        else
+        clienteService.deleteClienteById(id);
         return new ResponseEntity<>("Cliente deletado com sucesso", HttpStatus.OK);
     }
 }

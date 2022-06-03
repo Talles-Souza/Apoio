@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.residencia.commerce.dto.ItemPedidoDTO;
+import com.residencia.commerce.exception.NoSuchElementFoundException;
 import com.residencia.commerce.service.ItemPedidoService;
 
 @RestController
@@ -35,24 +36,34 @@ public class ItemPedidoController {
     @GetMapping("/{id}")
     public ResponseEntity<ItemPedidoDTO> findItemPedidoById(@PathVariable Integer id){
     	ItemPedidoDTO itemPedidoDTO = itemPedidoService.findItemPedidoById(id);
+    	if (null == itemPedidoDTO)
+			throw new NoSuchElementFoundException("Não foi encontrado um ItemPedido com o id " + id);
+		else
         return new ResponseEntity<>(itemPedidoDTO, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<ItemPedidoDTO> saveItemPedido(@RequestBody @Valid ItemPedidoDTO itemPedidoDTO){
     	ItemPedidoDTO novoItemPedido = itemPedidoService.saveItemPedido(itemPedidoDTO);
-        return new ResponseEntity<>(novoItemPedido, HttpStatus.CREATED);
+    	return new ResponseEntity<>(novoItemPedido, HttpStatus.CREATED);
     }
 
     @PutMapping
     public ResponseEntity<ItemPedidoDTO> updateItemPedido(@RequestBody @Valid ItemPedidoDTO itemPedidoDTO){
-    	ItemPedidoDTO itemPedidoAtualizado = itemPedidoService.updateItemPedido(itemPedidoDTO);
-        return new ResponseEntity<>(itemPedidoAtualizado, HttpStatus.OK);
+    	ItemPedidoDTO itemPedidoAtualizado = itemPedidoService.findItemPedidoById(itemPedidoDTO.getIdItemPedido());
+    	if (null == itemPedidoAtualizado)
+			throw new NoSuchElementFoundException("Não foi encontrado um ItemPedido com esse id" + itemPedidoDTO.getIdItemPedido());
+		else
+    	return new ResponseEntity<>(itemPedidoService.updateItemPedido(itemPedidoDTO), HttpStatus.OK);
     }
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteItemPedido(@PathVariable Integer id){
-		itemPedidoService.deleteItemPedidoById(id);
+		ItemPedidoDTO itemPedidoAtualizado = itemPedidoService.findItemPedidoById(id);
+		if (null == itemPedidoAtualizado)
+			throw new NoSuchElementFoundException("Não foi encontrado um ItemPedido com o id " + id);
+		else
+			itemPedidoService.deleteItemPedidoById(id);
 		return new ResponseEntity<>("Item do pedido deletado com sucesso", HttpStatus.OK);
 	}
 

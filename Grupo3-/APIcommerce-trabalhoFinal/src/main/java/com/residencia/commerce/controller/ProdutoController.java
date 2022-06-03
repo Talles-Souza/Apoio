@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.residencia.commerce.dto.PedidoDTO;
 import com.residencia.commerce.dto.ProdutoDTO;
+import com.residencia.commerce.exception.NoSuchElementFoundException;
 import com.residencia.commerce.service.ProdutoService;
 
 @RestController
@@ -33,9 +35,12 @@ public class ProdutoController {
     @GetMapping("/{id}")
     public ResponseEntity<ProdutoDTO> findProdutoById(@PathVariable Integer id){
         ProdutoDTO produtoDTO = produtoService.findProdutoById(id);
+        if (null == produtoDTO)
+			throw new NoSuchElementFoundException("Não foi encontrado um Produto com o id " + id);
+		else
         return new ResponseEntity<>(produtoDTO, HttpStatus.OK);
     }
-@PostMapping
+	@PostMapping
     public ResponseEntity<ProdutoDTO> saveProduto(@RequestBody @Valid ProdutoDTO produtoDTO){
         ProdutoDTO novoProduto = produtoService.saveProduto(produtoDTO);
         return new ResponseEntity<>(novoProduto, HttpStatus.CREATED);
@@ -43,13 +48,20 @@ public class ProdutoController {
 
     @PutMapping
     public ResponseEntity<ProdutoDTO> updateProduto(@RequestBody @Valid ProdutoDTO produtoDTO){
-        ProdutoDTO produtoAtualizado = produtoService.updateProduto(produtoDTO);
-        return new ResponseEntity<>(produtoAtualizado, HttpStatus.OK);
+    	ProdutoDTO produtoAtualizado = produtoService.findProdutoById(produtoDTO.getIdProduto());
+    	if (null == produtoAtualizado)
+			throw new NoSuchElementFoundException("Não foi encontrado um Produto com o id ");
+		else
+        return new ResponseEntity<>(produtoService.updateProduto(produtoDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteProduto(@PathVariable Integer id){
-        produtoService.deleteProdutoById(id);
-        return new ResponseEntity<>("Produto deletado com sucesso", HttpStatus.OK);
+    	ProdutoDTO ProdutoAtualizado = produtoService.findProdutoById(id);
+		if (null == ProdutoAtualizado)
+			throw new NoSuchElementFoundException("Não foi encontrado um Produto com o id " + id);
+		else
+			produtoService.deleteProdutoById(id);
+		return new ResponseEntity<>("Item do produto deletado com sucesso", HttpStatus.OK);
     }
 }
