@@ -55,8 +55,8 @@ public class ClienteService {
 		cliente.setCpfCliente(clienteDTO.getCpfCliente());
 		cliente.setTelefoneCliente(clienteDTO.getTelefoneCliente());
 		cliente.setDataNascimentoCliente(clienteDTO.getDataNascimentoCliente());
-		cliente.getEndereco().setIdEndereco(clienteDTO.getEnderecoDTO().getIdEndereco());
-
+		//cliente.getEndereco().setIdEndereco(clienteDTO.getEnderecoDTO().getIdEndereco());
+		
 		
 		return cliente;
 	}
