@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.residencia.commerce.dto.ClienteDTO;
 import com.residencia.commerce.entity.Cliente;
+import com.residencia.commerce.entity.Endereco;
 import com.residencia.commerce.repository.ClienteRepository;
 
 @Service
@@ -15,39 +16,44 @@ public class ClienteService {
 	@Autowired
 	ClienteRepository clienteRepository;
 
-	 public List<ClienteDTO> findAllCliente(){
-	        List<Cliente> listaClienteEntity = clienteRepository.findAll();
-	        List<ClienteDTO> listaClienteDTO = new ArrayList<>();
+	@Autowired
+	EnderecoService enderecoService;
 
-	        for(Cliente cliente : listaClienteEntity) {
-	            listaClienteDTO.add(converterEntityToDTO(cliente));
-	        }
+	public List<ClienteDTO> findAllCliente() {
+		List<Cliente> listaClienteEntity = clienteRepository.findAll();
+		List<ClienteDTO> listaClienteDTO = new ArrayList<>();
 
-	        return listaClienteDTO;
-	    }
-
-	    public ClienteDTO findClienteById(Integer id) {
-	        return clienteRepository.findById(id).isPresent() ? converterEntityToDTO(clienteRepository.findById(id).get()) : null;
-	    }
-
-	    public ClienteDTO saveCliente(ClienteDTO clienteDTO) {
-	    	Cliente cliente = clienteRepository.save(ConverteDTOToEntidade(clienteDTO));
-	        return converterEntityToDTO(cliente);
-	    }
-
-	    public ClienteDTO updateCliente(ClienteDTO clienteDTO) {
-	    	Cliente cliente = clienteRepository.save(ConverteDTOToEntidade(clienteDTO));
-	        return converterEntityToDTO(cliente);
-	    }
-	    
-	    public void deleteClienteById(Integer id) {
-			Cliente cliente = clienteRepository.findById(id).get();
-			clienteRepository.delete(cliente); 
+		for (Cliente cliente : listaClienteEntity) {
+			listaClienteDTO.add(converterEntityToDTO(cliente));
 		}
-	
-	
+
+		return listaClienteDTO;
+	}
+
+	public ClienteDTO findClienteById(Integer id) {
+		return clienteRepository.findById(id).isPresent() ? converterEntityToDTO(clienteRepository.findById(id).get())
+				: null;
+	}
+
+	public ClienteDTO saveCliente(ClienteDTO clienteDTO) {
+
+		Cliente cliente = clienteRepository.save(ConverteDTOToEntidade(clienteDTO));
+		return converterEntityToDTO(cliente);
+	}
+
+	public ClienteDTO updateCliente(ClienteDTO clienteDTO) {
+		Cliente cliente = clienteRepository.save(ConverteDTOToEntidade(clienteDTO));
+		return converterEntityToDTO(cliente);
+	}
+
+	public void deleteClienteById(Integer id) {
+		Cliente cliente = clienteRepository.findById(id).get();
+		clienteRepository.delete(cliente);
+	}
+
 	private Cliente ConverteDTOToEntidade(ClienteDTO clienteDTO) {
 		Cliente cliente = new Cliente();
+		Endereco endereco = new Endereco();
 
 		cliente.setIdCliente(clienteDTO.getIdCliente());
 		cliente.setEmailCliente(clienteDTO.getEmailCliente());
@@ -55,12 +61,15 @@ public class ClienteService {
 		cliente.setCpfCliente(clienteDTO.getCpfCliente());
 		cliente.setTelefoneCliente(clienteDTO.getTelefoneCliente());
 		cliente.setDataNascimentoCliente(clienteDTO.getDataNascimentoCliente());
-		//cliente.getEndereco().setIdEndereco(clienteDTO.getEnderecoDTO().getIdEndereco());
-		
-		
+
+		endereco = enderecoService
+				.ConverteDTOToEntidade(enderecoService.findEnderecoById(clienteDTO.getEnderecoDTO().getIdEndereco()));
+		cliente.setEndereco(endereco);
+
+
 		return cliente;
 	}
-	
+
 	private ClienteDTO converterEntityToDTO(Cliente cliente) {
 		ClienteDTO clienteDTO = new ClienteDTO();
 
@@ -70,7 +79,7 @@ public class ClienteService {
 		clienteDTO.setCpfCliente(cliente.getCpfCliente());
 		clienteDTO.setTelefoneCliente(cliente.getTelefoneCliente());
 		clienteDTO.setDataNascimentoCliente(cliente.getDataNascimentoCliente());
-		
+
 		return clienteDTO;
 	}
 }
