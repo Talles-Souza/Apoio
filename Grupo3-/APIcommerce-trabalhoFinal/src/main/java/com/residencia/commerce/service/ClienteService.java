@@ -37,12 +37,12 @@ public class ClienteService {
 	}
 
 	public ClienteDTO saveCliente(ClienteDTO clienteDTO) {
-		if (clienteRepository.existsByCpf(clienteDTO.getCpfCliente())) {
-			throw new NoSuchElementFoundException("CPF já cadastrado");
-		}else if(clienteRepository.existsByEmail(clienteDTO.getEmailCliente())) {
-			throw new NoSuchElementFoundException("Email já cadastrado");
-		}Cliente cliente = clienteRepository.save(ConverteDTOToEntidade(clienteDTO));
-	return converterEntityToDTO(cliente);
+        if (clienteRepository.existsByCpfCliente(clienteDTO.getCpfCliente())) {
+            throw new NoSuchElementFoundException("CPF já cadastrado");
+        }else if(clienteRepository.existsByEmailCliente(clienteDTO.getEmailCliente())) {
+            throw new NoSuchElementFoundException("Email já cadastrado");
+        }Cliente cliente = clienteRepository.save(ConverteDTOToEntidade(clienteDTO));
+    return converterEntityToDTO(cliente);
 }
 
 	public ClienteDTO updateCliente(ClienteDTO clienteDTO) {
@@ -55,7 +55,7 @@ public class ClienteService {
 		clienteRepository.delete(cliente);
 	}
 
-	private Cliente ConverteDTOToEntidade(ClienteDTO clienteDTO) {
+	public Cliente ConverteDTOToEntidade(ClienteDTO clienteDTO) {
 		Cliente cliente = new Cliente();
 		Endereco endereco = new Endereco();
 
@@ -65,15 +65,15 @@ public class ClienteService {
 		cliente.setCpfCliente(clienteDTO.getCpfCliente());
 		cliente.setTelefoneCliente(clienteDTO.getTelefoneCliente());
 		cliente.setDataNascimentoCliente(clienteDTO.getDataNascimentoCliente());
-
+		/*
 		endereco = enderecoService
 				.ConverteDTOToEntidade(enderecoService.findEnderecoById(clienteDTO.getEnderecoDTO().getIdEndereco()));
 		cliente.setEndereco(endereco);
-
+*/
 		return cliente;
 	}
 
-	private ClienteDTO converterEntityToDTO(Cliente cliente) {
+	public ClienteDTO converterEntityToDTO(Cliente cliente) {
 		ClienteDTO clienteDTO = new ClienteDTO();
 
 		clienteDTO.setIdCliente(cliente.getIdCliente());

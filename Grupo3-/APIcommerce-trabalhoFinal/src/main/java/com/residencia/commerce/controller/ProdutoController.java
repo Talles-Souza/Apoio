@@ -22,9 +22,11 @@ import com.residencia.commerce.service.ProdutoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/produto")
+@Tag(name = "Produto")
 public class ProdutoController {
     @Autowired
     ProdutoService produtoService;

@@ -23,9 +23,11 @@ import com.residencia.commerce.service.CategoriaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/categoria")
+@Tag(name = "Categoria")
 public class CategoriaController {
 	@Autowired
 	CategoriaService categoriaService;
