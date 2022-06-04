@@ -31,6 +31,9 @@ public class ItemPedidoService {
     }
 
     public ItemPedidoDTO saveItemPedido(ItemPedidoDTO itemPedidoDTO) {
+    	itemPedidoDTO.setValorBrutoItemPedido(itemPedidoDTO.getPrecoVendaItemPedido()*itemPedidoDTO.getQuantidadeItemProduto());
+    	Double perce = itemPedidoDTO.getValorBrutoItemPedido()*(itemPedidoDTO.getPercentualDescontoItemPedido()/100);
+    	itemPedidoDTO.setValorLiquidoItemPedido( itemPedidoDTO.getValorBrutoItemPedido() - perce);
     	ItemPedido itemPedido = itemPedidoRepository.save(ConverteDTOToEntidade(itemPedidoDTO));
         return converterEntityToDTO(itemPedido);
     }

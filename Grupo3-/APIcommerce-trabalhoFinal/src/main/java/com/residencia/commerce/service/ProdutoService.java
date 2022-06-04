@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.residencia.commerce.dto.ProdutoDTO;
 import com.residencia.commerce.entity.Produto;
+import com.residencia.commerce.exception.NoSuchElementFoundException;
 import com.residencia.commerce.repository.ProdutoRepository;
 
 @Service
@@ -31,6 +32,9 @@ public class ProdutoService {
 	}
 
 	public ProdutoDTO saveProduto(ProdutoDTO produtoDTO) {
+		if (produtoRepository.existsByDescricao(produtoDTO.getDescricao())) {
+			throw new NoSuchElementFoundException("Essa descrição já existe no banco");
+		}
 		Produto produto = produtoRepository.save(ConverteDTOToEntidade(produtoDTO));
 		return converterEntityToDTO(produto);
 	}
