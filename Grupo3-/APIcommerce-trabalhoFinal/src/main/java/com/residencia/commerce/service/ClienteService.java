@@ -1,4 +1,4 @@
-package com.residencia.commerce.service;
+	package com.residencia.commerce.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.residencia.commerce.dto.ClienteDTO;
 import com.residencia.commerce.entity.Cliente;
 import com.residencia.commerce.entity.Endereco;
+import com.residencia.commerce.exception.NoSuchElementFoundException;
 import com.residencia.commerce.repository.ClienteRepository;
 
 @Service
@@ -36,10 +37,13 @@ public class ClienteService {
 	}
 
 	public ClienteDTO saveCliente(ClienteDTO clienteDTO) {
-
-		Cliente cliente = clienteRepository.save(ConverteDTOToEntidade(clienteDTO));
-		return converterEntityToDTO(cliente);
-	}
+		if (clienteRepository.existsByCpf(clienteDTO.getCpfCliente())) {
+			throw new NoSuchElementFoundException("CPF já cadastrado");
+		}else if(clienteRepository.existsByEmail(clienteDTO.getEmailCliente())) {
+			throw new NoSuchElementFoundException("Email já cadastrado");
+		}Cliente cliente = clienteRepository.save(ConverteDTOToEntidade(clienteDTO));
+	return converterEntityToDTO(cliente);
+}
 
 	public ClienteDTO updateCliente(ClienteDTO clienteDTO) {
 		Cliente cliente = clienteRepository.save(ConverteDTOToEntidade(clienteDTO));
@@ -65,7 +69,6 @@ public class ClienteService {
 		endereco = enderecoService
 				.ConverteDTOToEntidade(enderecoService.findEnderecoById(clienteDTO.getEnderecoDTO().getIdEndereco()));
 		cliente.setEndereco(endereco);
-
 
 		return cliente;
 	}
