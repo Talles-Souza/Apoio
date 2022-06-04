@@ -1,17 +1,30 @@
 package com.residencia.commerce.dto;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class ProdutoDTO {
 
 	private Integer idProduto;
+	
 	private String nomeProduto;
+	
 	private String descricao;
+	
 	private Integer qtdEstoqueProduto;
+	
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date dataCadastroProduto;
+	
 	private Double valorUnitarioProduto;
+	
 	private String nomeImagemProduto;
+	
 	private CategoriaDTO categoriaDTO;
+	
+	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 	public Integer getIdProduto() {
 		return idProduto;

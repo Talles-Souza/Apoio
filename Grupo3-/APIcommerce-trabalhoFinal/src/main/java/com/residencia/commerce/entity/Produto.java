@@ -18,6 +18,8 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "produto")
 public class Produto {
@@ -53,6 +55,7 @@ public class Produto {
 	private String nomeImagemProduto;
 
 	@ManyToOne
+	@JsonBackReference
 	@JoinColumn(name = "id_categoria", referencedColumnName = "id_categoria")
 	private Categoria categoria;
 
