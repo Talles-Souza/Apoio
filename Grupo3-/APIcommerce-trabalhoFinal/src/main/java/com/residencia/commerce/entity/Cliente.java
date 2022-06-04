@@ -16,6 +16,8 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Cliente {
 
@@ -51,6 +53,7 @@ public class Cliente {
 	private Date dataNascimentoCliente;
 
 	@ManyToOne
+	@JsonBackReference
 	@JoinColumn(name = "id_endereco", referencedColumnName = "id_endereco")
 	private Endereco endereco;
 

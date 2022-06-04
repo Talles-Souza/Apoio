@@ -12,7 +12,6 @@ public class ClienteDTO {
 	private String nomeCompletoCliente;
 	private String cpfCliente;
 	private String telefoneCliente;
-	
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date dataNascimentoCliente;
 	private EnderecoDTO enderecoDTO; 

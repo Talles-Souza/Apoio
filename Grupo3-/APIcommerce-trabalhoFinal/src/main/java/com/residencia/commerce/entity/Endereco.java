@@ -15,6 +15,7 @@ import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Endereco {
@@ -57,7 +58,7 @@ public class Endereco {
 	private String ufEndereco;
 
 	@OneToMany(mappedBy = "endereco")
-	@JsonIgnore
+	@JsonManagedReference
 	private List<Cliente> clienteList;
 
 	public Integer getIdEndereco() {
