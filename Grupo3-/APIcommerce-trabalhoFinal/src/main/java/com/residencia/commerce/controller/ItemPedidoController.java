@@ -23,9 +23,11 @@ import com.residencia.commerce.service.ItemPedidoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/itemPedido")
+@Tag(name = "Item Pedido")
 public class ItemPedidoController {
 	//falta enviar email com o formato de nota fiscal
 	@Autowired
