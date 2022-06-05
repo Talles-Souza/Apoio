@@ -53,7 +53,6 @@ public class Cliente {
 	private Date dataNascimentoCliente;
 
 	@ManyToOne
-	@JsonBackReference
 	@JoinColumn(name = "id_endereco", referencedColumnName = "id_endereco")
 	private Endereco endereco;
 

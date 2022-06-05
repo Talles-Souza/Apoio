@@ -23,6 +23,7 @@ public class ProdutoDTO {
 	private String nomeImagemProduto;
 	
 	private CategoriaDTO categoriaDTO;
+
 	
 	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -90,4 +91,7 @@ public class ProdutoDTO {
 		this.categoriaDTO = categoriaDTO;
 	}
 
+	
+	
+	
 }
