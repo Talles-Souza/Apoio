@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.residencia.commerce.dto.ClienteDTO;
+import com.residencia.commerce.dto.EnderecoDTO;
 import com.residencia.commerce.entity.Cliente;
 import com.residencia.commerce.entity.Endereco;
 import com.residencia.commerce.exception.NoSuchElementFoundException;
@@ -57,7 +58,7 @@ public class ClienteService {
 
 	public Cliente ConverteDTOToEntidade(ClienteDTO clienteDTO) {
 		Cliente cliente = new Cliente();
-		Endereco endereco = new Endereco();
+		//Endereco endereco = new Endereco();
 
 		cliente.setIdCliente(clienteDTO.getIdCliente());
 		cliente.setEmailCliente(clienteDTO.getEmailCliente());
@@ -65,16 +66,23 @@ public class ClienteService {
 		cliente.setCpfCliente(clienteDTO.getCpfCliente());
 		cliente.setTelefoneCliente(clienteDTO.getTelefoneCliente());
 		cliente.setDataNascimentoCliente(clienteDTO.getDataNascimentoCliente());
+		
+		if(clienteDTO.getIdEndereco() != null) {
+			cliente.setEndereco(enderecoService.ConverteDTOToEntidade(enderecoService.findEnderecoById(clienteDTO.getIdEndereco())));
+		}
+		
 		/*
 		endereco = enderecoService
 				.ConverteDTOToEntidade(enderecoService.findEnderecoById(clienteDTO.getEnderecoDTO().getIdEndereco()));
 		cliente.setEndereco(endereco);
-*/
+		*/
 		return cliente;
+		
 	}
 
 	public ClienteDTO converterEntityToDTO(Cliente cliente) {
 		ClienteDTO clienteDTO = new ClienteDTO();
+		
 
 		clienteDTO.setIdCliente(cliente.getIdCliente());
 		clienteDTO.setEmailCliente(cliente.getEmailCliente());
@@ -82,7 +90,11 @@ public class ClienteService {
 		clienteDTO.setCpfCliente(cliente.getCpfCliente());
 		clienteDTO.setTelefoneCliente(cliente.getTelefoneCliente());
 		clienteDTO.setDataNascimentoCliente(cliente.getDataNascimentoCliente());
-
+		
+		if(cliente.getEndereco() != null) {
+			clienteDTO.setIdEndereco(cliente.getEndereco().getIdEndereco());
+		}
+		
 		return clienteDTO;
 	}
 }

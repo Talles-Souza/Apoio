@@ -58,7 +58,7 @@ public class Endereco {
 	private String ufEndereco;
 
 	@OneToMany(mappedBy = "endereco")
-	@JsonManagedReference
+	@JsonIgnore
 	private List<Cliente> clienteList;
 
 	public Integer getIdEndereco() {

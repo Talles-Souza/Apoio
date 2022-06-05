@@ -16,6 +16,9 @@ public class ProdutoService {
 	@Autowired
 	ProdutoRepository produtoRepository;
 	
+	@Autowired
+	CategoriaService categoriaService;
+	
 	public List<ProdutoDTO> findAllProduto(){
 		List<Produto> listaProdutosEntity = produtoRepository.findAll();
 		List<ProdutoDTO> listaProdutosDTO = new ArrayList<>();
@@ -52,7 +55,8 @@ public class ProdutoService {
 
 	private Produto ConverteDTOToEntidade(ProdutoDTO produtoDTO) {
 		Produto produto = new Produto();
-
+		
+		
 		produto.setIdProduto(produtoDTO.getIdProduto());
 		produto.setDataCadastroProduto(produtoDTO.getDataCadastroProduto());
 		produto.setDescricao(produtoDTO.getDescricao());
@@ -74,7 +78,7 @@ public class ProdutoService {
 		produtoDTO.setNomeProduto(produto.getNomeProduto());
 		produtoDTO.setQtdEstoqueProduto(produto.getQtdEstoqueProduto());
 		produtoDTO.setValorUnitarioProduto(produto.getValorUnitarioProduto());
-
+		
 		return produtoDTO;
 
 	}

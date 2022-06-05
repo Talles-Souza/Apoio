@@ -14,7 +14,7 @@ public class ClienteDTO {
 	private String telefoneCliente;
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date dataNascimentoCliente;
-	private EnderecoDTO enderecoDTO; 
+	private Integer idEndereco; 
 	
 	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	
@@ -66,13 +66,15 @@ public class ClienteDTO {
 		this.dataNascimentoCliente = dataNascimentoCliente;
 	}
 
-	public EnderecoDTO getEnderecoDTO() {
-		return enderecoDTO;
+	public Integer getIdEndereco() {
+		return idEndereco;
 	}
 
-	public void setEnderecoDTO(EnderecoDTO enderecoDTO) {
-		this.enderecoDTO = enderecoDTO;
+	public void setIdEndereco(Integer idEndereco) {
+		this.idEndereco = idEndereco;
 	}
+
+	
 	
 	
 
