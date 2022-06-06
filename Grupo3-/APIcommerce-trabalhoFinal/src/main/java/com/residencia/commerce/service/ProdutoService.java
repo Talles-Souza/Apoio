@@ -95,25 +95,21 @@ public class ProdutoService {
 		} catch (IOException e) {
 			System.out.println("Ocorreu um erro na gravação");
 		}
-		Boolean nome = conferindoNome(file);
-		if (nome == false) {
-			Produto produtoBD = produtoRepository.save(produtoConvertido);
-			produtoBD.setNomeImagemProduto(produtoBD.getIdProduto() + "" + file.getOriginalFilename());
-			Produto produtoAtualizado = produtoRepository.save(produtoBD);
 
-			arquivoService.criarArquivo(produtoBD.getIdProduto() + "" + file.getOriginalFilename(), file);
-			return converterEntityToDTO(produtoAtualizado);
-		} else
-			throw new NoSuchElementFoundException("O nome da imagem já existe");
+		Produto produtoBD = produtoRepository.save(produtoConvertido);
+		produtoBD.setNomeImagemProduto(produtoBD.getIdProduto() + "" + file.getOriginalFilename());
+		Produto produtoAtualizado = produtoRepository.save(produtoBD);
+
+		arquivoService.criarArquivo(produtoBD.getIdProduto() + "" + file.getOriginalFilename(), file);
+		return converterEntityToDTO(produtoAtualizado);
 	}
 
-	public Boolean conferindoNome(MultipartFile file) {
-		Boolean existe = produtoRepository.existsByNomeImagem(file.getOriginalFilename());
-
-		if (existe) {
-			return true;
-		}
-		return false;
-
-	}
+	/*
+	 * public Boolean conferindoNome(MultipartFile file) { Boolean existe =
+	 * produtoRepository.existsByNomeImagem(file.getOriginalFilename());
+	 * 
+	 * if (existe) { return true; } return false;
+	 * 
+	 * }
+	 */
 }
